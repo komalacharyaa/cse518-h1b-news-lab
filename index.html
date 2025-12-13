@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>H1B News Lab — Prototype (Simulated)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">H1B</div>
+      <div class="titles">
+        <h1>H1B News Lab</h1>
+        <p class="subtitle">How changing headlines shift feelings, understanding, and actions <span class="sim">(SIMULATED CONTENT)</span></p>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="control">
+        <label>Frame tone</label>
+        <select id="frameTone">
+          <option value="auto">auto</option>
+          <option value="neutral">neutral</option>
+          <option value="alarming">alarming</option>
+        </select>
+      </div>
+      <div class="control">
+        <label>Source label</label>
+        <select id="sourceLabel">
+          <option value="auto">auto</option>
+          <option value="official">official</option>
+          <option value="major">major</option>
+          <option value="social">social</option>
+        </select>
+      </div>
+      <div class="control">
+        <label>Uncertainty badge</label>
+        <select id="uncertaintyFlag">
+          <option value="auto">auto</option>
+          <option value="on">on</option>
+          <option value="off">off</option>
+        </select>
+      </div>
+      <div class="control">
+        <label>Delivery cadence</label>
+        <select id="cadenceMode">
+          <option value="auto">auto</option>
+          <option value="rapid">rapid stream</option>
+          <option value="batched">batched digest</option>
+        </select>
+      </div>
+      <button id="startBtn" class="primary">Start session</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="feed" id="feed">
+      <div class="consent" id="consent">
+        <h2>Consent (Prototype)</h2>
+        <p>This is a class research prototype about news UX. You will see simulated H-1B related updates. We log interaction data (time, scroll, ratings) anonymously, stored locally in your browser for this demo.</p>
+        <label><input type="checkbox" id="agreeBox" /> I understand and agree to continue.</label>
+      </div>
+      <div id="cards"></div>
+      <div class="feed-actions">
+        <button id="showNext" class="secondary" disabled>Next update</button>
+        <button id="showDigest" class="secondary">Show digest</button>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div class="badge-grid">
+        <div class="badge kpi"><span id="kpiCards">0</span><label>updates read</label></div>
+        <div class="badge kpi"><span id="kpiAffect">–</span><label>avg worry (1–7)</label></div>
+        <div class="badge kpi"><span id="kpiClarity">–</span><label>clarity score</label></div>
+      </div>
+
+      <div class="chart">
+        <div class="chart-head">
+          <h3>Worry Meter</h3>
+          <small>per session</small>
+        </div>
+        <canvas id="worryChart" width="380" height="160" aria-label="Worry chart"></canvas>
+      </div>
+
+      <div class="panel-section">
+        <h3>Session</h3>
+        <div id="conditionBox" class="conditions"></div>
+        <button id="endSession" class="danger" disabled>Finish & Survey</button>
+      </div>
+
+      <div class="panel-section" id="exportBox" style="display:none;">
+        <h3>Export</h3>
+        <p>Download your interaction log for analysis.</p>
+        <button id="exportCsv" class="primary">Download CSV</button>
+      </div>
+    </aside>
+  </main>
+
+  <div class="modal" id="affectModal" hidden>
+    <div class="modal-content">
+      <h3>How do you feel after reading these updates?</h3>
+      <p>Move the slider toward calm (1) or worried (7), then submit to proceed.</p>
+      <div class="slider-row">
+        <span>😌 1</span>
+        <input type="range" min="1" max="7" value="4" id="affectSlider"/>
+        <span>7 😰</span>
+      </div>
+      <button id="submitAffect" class="primary">Submit</button>
+    </div>
+  </div>
+
+  <div class="modal" id="surveyModal" hidden>
+    <div class="modal-content survey">
+      <h3>Quick Survey</h3>
+      <div class="q">
+        <label>1) Based on what you read, which statement is TRUE?</label>
+        <div>
+          <label><input type="radio" name="q1" value="A"/> Changes are guaranteed and active today.</label>
+          <label><input type="radio" name="q1" value="B"/> Some items were labeled “Developing / may change.”</label>
+          <label><input type="radio" name="q1" value="C"/> All updates came only from social media.</label>
+        </div>
+      </div>
+      <div class="q">
+        <label>2) How reliable did you find the updates overall?</label>
+        <input type="range" min="1" max="7" value="4" id="trustSlider"/>
+      </div>
+      <div class="q">
+        <label>3) What would you do next? (choose any)</label>
+        <div class="grid3">
+          <label><input type="checkbox" id="act_dso"/> Contact school DSO</label>
+          <label><input type="checkbox" id="act_lawyer"/> Consult an immigration lawyer</label>
+          <label><input type="checkbox" id="act_wait"/> Wait for official confirmation</label>
+        </div>
+      </div>
+      <button id="submitSurvey" class="primary">Submit survey</button>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <small>H1B News Lab — class prototype • All news items are <b>simulated</b> for research.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
