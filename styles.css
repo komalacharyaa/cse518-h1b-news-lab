@@ -28,7 +28,7 @@ button:disabled{opacity:0.6}
 .badge-pill.source-major{color:#0e121a; background:linear-gradient(135deg, #ffd56b, #ffb36b)}
 .badge-pill.source-social{color:#0e121a; background:linear-gradient(135deg, #ff9ddb, #b49dff)}
 .badge-pill.uncertain{background:transparent; border-color:#ffd56b; color:#ffd56b}
-.card .summary{color:#d2d6e3; line-height:1.45}
+.card .summary {color: #d2d6e3; line-height: 1.5; margin-top: 8px; white-space: normal;}
 .card .facts{margin-top:8px; display:flex; flex-wrap:wrap; gap:8px}
 .fact{font-size:11px; border:1px dashed var(--border); padding:3px 6px; border-radius:6px; color:#c2c7d6}
 .feed-actions{display:flex; gap:10px; justify-content:center; margin-top:10px}
@@ -49,3 +49,42 @@ button:disabled{opacity:0.6}
 .survey .q{margin:12px 0}
 .grid3{display:grid; grid-template-columns:repeat(3, 1fr); gap:8px}
 .foot{padding:10px 16px; color:var(--muted); text-align:center; border-top:1px solid var(--border); margin-top:12px}
+
+
+/* Consent form additions */
+.form-grid{display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin:12px 0}
+.field{display:flex; flex-direction:column; gap:6px}
+.field input, .field select{border:1px solid var(--border); background:#12151b; color:var(--fg); padding:9px 10px; border-radius:10px}
+.agree-row{display:flex; align-items:center; gap:8px; margin-top:8px}
+.consent-actions{display:flex; flex-direction:column; gap:8px; margin-top:12px}
+.muted-note{color:var(--muted); font-size:12px}
+
+/* Export card inside session panel */
+.export-card h4{margin:0 0 6px; font-size:14px}
+.export-card p{margin:0 0 10px}
+
+/* Iteration end card */
+.iter-card{border:1px dashed var(--border); background:#0f1218; border-radius:12px; padding:14px; margin-top:14px}
+.iter-card h3{margin:0 0 6px}
+.iter-card p{margin:0 0 10px; color:#d2d6e3; line-height:1.45}
+.iter-card .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.iter-card .pill{font-size:11px; border:1px solid var(--border); padding:4px 8px; border-radius:999px; color:#c7ccda}
+
+/* Webcam */
+.cam{position:fixed; right:16px; bottom:16px; width:160px; border-radius:12px; border:1px solid var(--border); opacity:0.9}
+.cam-status{margin:8px 0 0; color:var(--muted); font-size:12px}
+
+/* Live Stress Meter */
+.live-sense{margin-top:12px; padding:12px; border:1px solid var(--border); border-radius:14px; background:#12151b}
+.live-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:10px}
+.live-head h3{margin:0; font-size:14px}
+.live-head small{color:var(--muted)}
+.live-body{display:flex; gap:12px; align-items:stretch}
+.cam-box{flex:1; min-width:0}
+.cam-box video{width:100%; height:140px; object-fit:cover; border-radius:12px; border:1px solid var(--border); background:#0b0e14}
+.cam-note{margin-top:6px; font-size:11px; color:var(--muted)}
+.meter-vert{width:78px; display:flex; flex-direction:column; align-items:center; gap:6px}
+.meter-track{position:relative; width:26px; height:140px; border-radius:14px; border:1px solid var(--border); background:#0b0e14; overflow:hidden}
+.meter-fill{position:absolute; left:0; right:0; bottom:0; height:0%; background:var(--accent)}
+.meter-val{font-weight:800; font-size:18px; line-height:1}
+.meter-label{font-size:11px; color:var(--muted); text-align:center}
