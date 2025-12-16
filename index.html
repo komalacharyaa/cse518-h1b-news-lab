@@ -49,7 +49,6 @@
           <option value="batched">batched digest</option>
         </select>
       </div>
-      <button id="startBtn" class="primary">Start session</button>
     </div>
   </header>
 
@@ -57,27 +56,73 @@
     <section class="feed" id="feed">
       <div class="consent" id="consent">
         <h2>Consent (Prototype)</h2>
-        <p>This is a class research prototype about news UX. You will see simulated H-1B related updates. We log interaction data (time, scroll, ratings) anonymously, stored locally in your browser for this demo.</p>
-        <label><input type="checkbox" id="agreeBox" /> I understand and agree to continue.</label>
+        <p>
+          This is a class research prototype about news UX. You will see <b>simulated</b> H-1B related updates.
+          We log interaction data (time, reading behavior, slider ratings) and store it locally in your browser for this demo.
+        </p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="nameField">Name</label>
+            <input id="nameField" type="text" placeholder="e.g., Komalika" />
+          </div>
+          <div class="field">
+            <label for="roleField">I am a…</label>
+            <select id="roleField">
+              <option value="">Select one</option>
+              <option value="f1">F-1 student</option>
+              <option value="h1b">H-1B employee</option>
+              <option value="dependent">Dependent / family</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="agree-row"><input type="checkbox" id="agreeBox" /> I understand and agree to continue.</label>
+
+        <div class="consent-actions">
+          <label class="agree-row"><input type="checkbox" id="webcamOptIn" /> Use webcam to estimate <b>neutral vs confused</b> (optional). Processed locally; no video stored.</label>
+
+          <button id="startBtn" class="primary">Start Iteration 1</button>
+          <div class="muted-note">You will complete <b>5 iterations</b>. The facilitator may change the four parameters between iterations.</div>
+        </div>
       </div>
+
       <div id="cards"></div>
-      <div class="feed-actions">
-        <button id="showNext" class="secondary" disabled>Next update</button>
-        <button id="showDigest" class="secondary">Show digest</button>
-      </div>
     </section>
 
     <aside class="panel">
       <div class="badge-grid">
+        <div class="badge kpi"><span id="kpiIter">0/5</span><label>iteration</label></div>
         <div class="badge kpi"><span id="kpiCards">0</span><label>updates read</label></div>
-        <div class="badge kpi"><span id="kpiAffect">–</span><label>avg worry (1–7)</label></div>
-        <div class="badge kpi"><span id="kpiClarity">–</span><label>clarity score</label></div>
+        <div class="badge kpi"><span id="kpiAffect">–</span><label>last worry (1–7)</label></div>
       </div>
+      <div class="cam-status">Camera: <span id="kpiCam">off</span></div>
+
+      <div class="live-sense">
+        <div class="live-head">
+          <h3>Live Stress Meter</h3>
+          <small>this iteration (webcam-based estimate)</small>
+        </div>
+        <div class="live-body">
+          <div class="cam-box">
+            <video id="cam" autoplay muted playsinline></video>
+            <div class="cam-note">Optional • processed locally • no recording</div>
+          </div>
+          <div class="meter-vert" aria-label="Live worry meter">
+            <div class="meter-track">
+              <div id="liveMeterFill" class="meter-fill"></div>
+            </div>
+            <div id="liveMeterVal" class="meter-val">–</div>
+            <div class="meter-label">worry (1–7)</div>
+          </div>
+        </div>
+      </div>
+
 
       <div class="chart">
         <div class="chart-head">
           <h3>Worry Meter</h3>
-          <small>per session</small>
+          <small>across iterations</small>
         </div>
         <canvas id="worryChart" width="380" height="160" aria-label="Worry chart"></canvas>
       </div>
@@ -86,17 +131,17 @@
         <h3>Session</h3>
         <div id="conditionBox" class="conditions"></div>
         <button id="endSession" class="danger" disabled>Finish & Survey</button>
-      </div>
 
-      <div class="panel-section" id="exportBox" style="display:none;">
-        <h3>Export</h3>
-        <p>Download your interaction log for analysis.</p>
-        <button id="exportCsv" class="primary">Download CSV</button>
+        <div id="exportBox" class="export-card" style="display:none; margin-top:12px;">
+          <h4>Export session data</h4>
+          <p class="muted">Available after <b>3 iterations</b>.</p>
+          <button id="exportCsv" class="primary">Download CSV</button>
+        </div>
       </div>
     </aside>
   </main>
 
-  <div class="modal" id="affectModal" hidden>
+  <div class="modal" id="affectModal" alighn="center" hidden>
     <div class="modal-content">
       <h3>How do you feel after reading these updates?</h3>
       <p>Move the slider toward calm (1) or worried (7), then submit to proceed.</p>
@@ -113,11 +158,11 @@
     <div class="modal-content survey">
       <h3>Quick Survey</h3>
       <div class="q">
-        <label>1) Based on what you read, which statement is TRUE?</label>
+        <label>1) Which statement best matches what you saw?</label>
         <div>
-          <label><input type="radio" name="q1" value="A"/> Changes are guaranteed and active today.</label>
-          <label><input type="radio" name="q1" value="B"/> Some items were labeled “Developing / may change.”</label>
-          <label><input type="radio" name="q1" value="C"/> All updates came only from social media.</label>
+          <label><input type="radio" name="q1" value="A"/> Everything sounded final and confirmed.</label>
+          <label><input type="radio" name="q1" value="B"/> Some items were marked “Developing / may change.”</label>
+          <label><input type="radio" name="q1" value="C"/> Most updates felt like rumors or speculation.</label>
         </div>
       </div>
       <div class="q">
@@ -128,18 +173,20 @@
         <label>3) What would you do next? (choose any)</label>
         <div class="grid3">
           <label><input type="checkbox" id="act_dso"/> Contact school DSO</label>
+          <br>
           <label><input type="checkbox" id="act_lawyer"/> Consult an immigration lawyer</label>
+          <br>
           <label><input type="checkbox" id="act_wait"/> Wait for official confirmation</label>
         </div>
       </div>
       <button id="submitSurvey" class="primary">Submit survey</button>
     </div>
   </div>
-
-  <footer class="foot">
+<footer class="foot">
     <small>H1B News Lab — class prototype • All news items are <b>simulated</b> for research.</small>
   </footer>
 
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
