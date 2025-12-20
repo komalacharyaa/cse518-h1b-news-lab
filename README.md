@@ -10,8 +10,7 @@ This prototype runs locally as a single-page web app and supports:
 * Optional webcam-based expression model (local-only, no video storage)
 * Simple worry trend plotting in the UI (canvas)
 
-## Demo Video / Live Demo Flow (what you can show)
-
+## Demo Video / Live Demo Flow
 1. Consent + webcam opt-in
 2. Set conditions (tone/source/uncertainty/cadence)
 3. Run an iteration → cards reveal sequentially
@@ -38,35 +37,6 @@ cse518-h1b-news-lab/
     ├── face_expression_model-weights_manifest.json
     └── face_expression_model-shard1
 ```
-
-## How to Run Locally
-
-### 1) Start a local server (important)
-
-Because the app fetches `rewritten_news.csv` (and loads model files), you should run it via a local server (not `file://`).
-
-#### Option A (Python):
-
-```
-bash
-python3 -m http.server 8000
-```
-
-Then open:
-
-```
-bash
-http://localhost:8000
-```
-
-#### Option B (VS Code Live Server):
-
-* Right click index.html → “Open with Live Server”
-
-### 2) Give webcam permission (optional)
-
-* If you opt in, the webcam is used only for local expression inference.
-* No frames are stored or uploaded.
 
 ## How the App Works
 
@@ -98,7 +68,7 @@ Expected columns:
 
 At runtime, depending on the Framing Tone setting, the renderer picks either the neutral or alarming fields.
 
-## Raw News → Rewritten News (how we created `rewritten_news.csv`)
+## Raw News → Rewritten News
 
 ### Step 1: Collect raw news
 
@@ -108,7 +78,7 @@ We first gathered real H-1B/visa-related news items into a “raw” sheet (ofte
 * source link / publisher
 * short factual notes (what happened, where, when)
 
-### Step 2: Rewrite into two tones (same facts, different framing)
+### Step 2: Rewrite into two tones
 
 For each raw item, we produced:
 
@@ -121,7 +91,7 @@ Key constraint: both versions must preserve the same factual content, only the f
 
 That file becomes the single source of truth for the prototype.
 
-#### Example rewriting prompt (you can reuse this)
+#### Example rewriting prompt
 Use this prompt with any LLM (OpenAI / etc.) to generate each pair:
 
 > You are rewriting a news item into two versions with identical facts.
@@ -133,7 +103,7 @@ Output fields:
 4. alarming_version (2 sentences, increases urgency/worry but adds NO new facts)
 Rules: Do not invent numbers, dates, fees, agencies, or outcomes. If a fact is uncertain, keep it uncertain in BOTH versions.
 
-### Expression Model (Webcam-based, optional)
+### Expression Model
 
 The prototype includes an optional expression signal to supplement self-report worry.
 
